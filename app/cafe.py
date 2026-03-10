@@ -12,19 +12,21 @@ class Cafe:
         self.name = name
 
     def visit_cafe(self, visitor: dict) -> str:
-        if not visitor.get("vaccine"):
+        vaccine = visitor.get("vaccine")
+        if not vaccine:
             raise NotVaccinatedError(
-                "Alarm! One of client is not vaccinated!"
+                "Alarm! One of the clients is not vaccinated!"
             )
 
-        if visitor["vaccine"].get("expiration_date") < datetime.date.today():
+        expiration = vaccine.get("expiration_date")
+        if expiration is None or expiration < datetime.date.today():
             raise OutdatedVaccineError(
-                "Dangerous! One of client out of the day vaccination!"
+                "Dangerous! One of the clients out of the day vaccination!"
             )
 
-        if visitor.get("wearing_a_mask") is False:
+        if  not visitor.get("wearing_a_mask"):
             raise NotWearingMaskError(
-                "Attention! One of client is not wearing mask!"
+                "Attention! One of the clients is not wearing mask!"
             )
 
         return f"Welcome to {self.name}"
